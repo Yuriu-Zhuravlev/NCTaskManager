@@ -1,2 +1,4 @@
 # Project exclude paths
 /target/
+NCTaskManager.iml
+/src/test/

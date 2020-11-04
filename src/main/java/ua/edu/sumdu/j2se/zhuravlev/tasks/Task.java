@@ -105,6 +105,18 @@ public class Task {
         this.active = active;
     }
 
+    @Override
+    public String toString() {
+        return "Task{" +
+                "title='" + title + '\'' +
+                ", time=" + time +
+                ", start=" + start +
+                ", end=" + end +
+                ", interval=" + interval +
+                ", active=" + active +
+                '}';
+    }
+
     /**
      * 11.10.2020
      * Set time for not periodic tasks, if time is incorrect shows message ERROR
