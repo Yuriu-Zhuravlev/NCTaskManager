@@ -17,10 +17,14 @@ public class ArrayTaskList {
     }
 
     public Task getTask(int index){
+        if (index >= maxIndex)
+            throw new IndexOutOfBoundsException("index > size");
         return tasks[index];
     }
 
     public void add(Task task){
+        if (task == null)
+            throw new NullPointerException("task is null");
         if (size() == maxSize){
             Task[] a = tasks;
             maxSize += toAdd;
@@ -32,6 +36,8 @@ public class ArrayTaskList {
     }
 
     public boolean remove(Task task){
+        if (task == null)
+            throw new NullPointerException("task is null");
         int i = 0;
         while ((tasks[i] != task) && (i != size())){
             i ++;
@@ -47,6 +53,10 @@ public class ArrayTaskList {
     }
 
     public ArrayTaskList incoming(int from, int to){
+        if (from < 0)
+            throw new IllegalArgumentException("from < 0");
+        if (to < from)
+            throw new IllegalArgumentException("to < from");
         ArrayTaskList result = new ArrayTaskList();
         for (int i = 0; i < maxIndex; i++) {
             if ((tasks[i].nextTimeAfter(from) <= to) && (tasks[i].nextTimeAfter(from) != -1)){

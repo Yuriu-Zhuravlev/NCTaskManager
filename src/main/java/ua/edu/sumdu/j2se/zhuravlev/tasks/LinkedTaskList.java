@@ -38,6 +38,8 @@ public class LinkedTaskList {
     }
 
     public void add(Task task){
+        if (task == null)
+            throw new NullPointerException("task is null");
         Node node = new Node(task);
         if (head == null){
             head = node;
@@ -50,6 +52,8 @@ public class LinkedTaskList {
     }
 
     public boolean remove(Task task){
+        if (task == null)
+            throw new NullPointerException("task is null");
         if (head.getTask() == task){
             head = head.getNext();
             maxIndex--;
@@ -71,6 +75,8 @@ public class LinkedTaskList {
     }
 
     public Task getTask(int index){
+        if (index >= maxIndex)
+            throw new IndexOutOfBoundsException("index > size");
         int i = 0;
         Node temp = head;
         while (i < index){
@@ -81,6 +87,10 @@ public class LinkedTaskList {
     }
 
     public LinkedTaskList incoming(int from, int to){
+        if (from < 0)
+            throw new IllegalArgumentException("from < 0");
+        if (to < from)
+            throw new IllegalArgumentException("to < from");
         LinkedTaskList result = new LinkedTaskList();
         Node temp = head;
         while (temp.getNext() != null){
