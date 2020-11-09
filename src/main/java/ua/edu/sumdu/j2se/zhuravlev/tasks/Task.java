@@ -78,7 +78,7 @@ public class Task {
      */
     public void setTitle(String title) {
         if (title.equals("")) {
-            System.out.println("ERROR: no title");
+            throw new IllegalArgumentException("Title is empty");
         } else {
             this.title = title;
         }
@@ -125,7 +125,7 @@ public class Task {
      */
     public void setTime(int time) {
         if (time < 0) {
-            System.out.println("ERROR: incorrect time");
+            throw new IllegalArgumentException("time < 0");
         } else {
             this.time = time;
             this.start = time;
@@ -144,13 +144,13 @@ public class Task {
      */
     public void setTime(int start, int end, int interval) {
         if (start < 0) {
-            System.out.println("ERROR: incorrect start time");
+            throw new IllegalArgumentException("start < 0");
         } else if (end < start) {
-            System.out.println("ERROR: incorrect end time");
+            throw new IllegalArgumentException("end < start");
         } else if (interval <= 0) {
-            System.out.println("ERROR: is not repeated");
+            throw new IllegalArgumentException("interval < 0");
         } else if ((start + interval) > end) {
-            System.out.println("ERROR: too big repeat interval");
+            throw new IllegalArgumentException("too big repeat interval");
         } else {
             this.start = start;
             this.end = end;
@@ -215,6 +215,9 @@ public class Task {
      * @return time of the next iteration. if there no one return -1
      */
     public int nextTimeAfter(int current) {
+        if (current < 0){
+            throw new IllegalArgumentException("current < 0");
+        }
         if ((current < getEndTime()) && isActive()
                 && ((current + getRepeatInterval()) < getEndTime())) {
             if (current < getStartTime()) {
