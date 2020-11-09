@@ -4,7 +4,7 @@ public class ArrayTaskList {
     private int maxIndex;
     private int maxSize;
     private Task[] tasks;
-    final int toAdd = 10;
+    private final int toAdd = 10;
 
     public ArrayTaskList(){
         maxSize = toAdd;

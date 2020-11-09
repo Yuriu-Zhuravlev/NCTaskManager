@@ -1,0 +1,95 @@
+package ua.edu.sumdu.j2se.zhuravlev.tasks;
+
+public class LinkedTaskList {
+    private class Node{
+        private Task task;
+        private Node next;
+
+        public Node(Task task) {
+            this.task = task;
+            next = null;
+        }
+
+        public Node getNext() {
+            return next;
+        }
+
+        public void setNext(Node next) {
+            this.next = next;
+        }
+
+        public Task getTask() {
+            return task;
+        }
+    }
+
+    private int maxIndex;
+    private Node head;
+    private Node tail;
+
+    public LinkedTaskList() {
+        maxIndex = 0;
+        head = null;
+        tail = null;
+    }
+
+    public int size(){
+        return maxIndex;
+    }
+
+    public void add(Task task){
+        Node node = new Node(task);
+        if (head == null){
+            head = node;
+            tail = node;
+        } else {
+            tail.setNext(node);
+            tail = node;
+        }
+        maxIndex++;
+    }
+
+    public boolean remove(Task task){
+        if (head.getTask() == task){
+            head = head.getNext();
+            maxIndex--;
+            return true;
+        }
+        Node tempNode = head;
+        while ((tempNode.getNext().getTask() != task) && (tempNode.getNext() != null))
+            tempNode = tempNode.getNext();
+        if (tempNode.getNext() != null){
+            if(tempNode.getNext() == tail){
+                tail = tempNode;
+            }
+            tempNode.setNext(tempNode.getNext().getNext());
+            maxIndex--;
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    public Task getTask(int index){
+        int i = 0;
+        Node temp = head;
+        while (i < index){
+            temp = temp.getNext();
+            i++;
+        }
+        return temp.getTask();
+    }
+
+    public LinkedTaskList incoming(int from, int to){
+        LinkedTaskList result = new LinkedTaskList();
+        Node temp = head;
+        while (temp.getNext() != null){
+            Task tempTask = temp.getTask();
+            if ((tempTask.nextTimeAfter(from) <= to) && (tempTask.nextTimeAfter(from) != -1)){
+                result.add(tempTask);
+            }
+            temp = temp.getNext();
+        }
+        return result;
+    }
+}
