@@ -1,6 +1,6 @@
 package ua.edu.sumdu.j2se.zhuravlev.tasks;
 
-public class LinkedTaskList {
+public class LinkedTaskList extends AbstractTaskList {
     private class Node{
         private Task task;
         private Node next;
@@ -23,18 +23,14 @@ public class LinkedTaskList {
         }
     }
 
-    private int maxIndex;
     private Node head;
     private Node tail;
 
     public LinkedTaskList() {
+        type = ListTypes.types.LINKED;
         maxIndex = 0;
         head = null;
         tail = null;
-    }
-
-    public int size(){
-        return maxIndex;
     }
 
     public void add(Task task){
@@ -86,7 +82,7 @@ public class LinkedTaskList {
         return temp.getTask();
     }
 
-    public LinkedTaskList incoming(int from, int to){
+    /*public LinkedTaskList incoming(int from, int to){
         if (from < 0)
             throw new IllegalArgumentException("from < 0");
         if (to < from)
@@ -101,5 +97,5 @@ public class LinkedTaskList {
             temp = temp.getNext();
         }
         return result;
-    }
+    }*/
 }
