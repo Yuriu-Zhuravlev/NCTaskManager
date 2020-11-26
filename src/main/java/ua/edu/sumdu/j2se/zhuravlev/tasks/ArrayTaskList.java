@@ -1,19 +1,15 @@
 package ua.edu.sumdu.j2se.zhuravlev.tasks;
 
-public class ArrayTaskList {
-    private int maxIndex;
+public class ArrayTaskList extends AbstractTaskList {
     private int maxSize;
     private Task[] tasks;
     private final int toAdd = 10;
 
-    public ArrayTaskList(){
+    public ArrayTaskList() {
         maxSize = toAdd;
         tasks = new Task[maxSize];
-        maxIndex=0;
-    }
-
-    public int size(){
-        return maxIndex;
+        maxIndex = 0;
+        type = ListTypes.types.LINKED;
     }
 
     public Task getTask(int index){
@@ -52,7 +48,7 @@ public class ArrayTaskList {
         }
     }
 
-    public ArrayTaskList incoming(int from, int to){
+    /*public ArrayTaskList incoming(int from, int to){
         if (from < 0)
             throw new IllegalArgumentException("from < 0");
         if (to < from)
@@ -64,5 +60,5 @@ public class ArrayTaskList {
             }
         }
         return result;
-    }
+    }*/
 }
