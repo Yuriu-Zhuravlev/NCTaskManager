@@ -1,6 +1,38 @@
 package ua.edu.sumdu.j2se.zhuravlev.tasks;
 
+import java.util.Iterator;
+
 public class LinkedTaskList extends AbstractTaskList {
+    @Override
+    public Iterator<Task> iterator() {
+        return new Iterator<Task>() {
+            Node next = head;
+            Node cur;
+            @Override
+            public boolean hasNext() {
+                return next != null;
+            }
+
+            @Override
+            public Task next() {
+                cur = next;
+                next = next.getNext();
+                return cur.getTask();
+            }
+
+            @Override
+            public void remove() {
+                if(cur == null) {
+                    throw new IllegalStateException();
+                }
+                else {
+                    LinkedTaskList.this.remove(cur.getTask());
+                    cur = null;
+                }
+            }
+        };
+    }
+
     private class Node{
         private Task task;
         private Node next;
@@ -20,6 +52,10 @@ public class LinkedTaskList extends AbstractTaskList {
 
         public Task getTask() {
             return task;
+        }
+
+        public void setTask(Task task) {
+            this.task = task;
         }
     }
 
@@ -50,13 +86,13 @@ public class LinkedTaskList extends AbstractTaskList {
     public boolean remove(Task task){
         if (task == null)
             throw new NullPointerException("task is null");
-        if (head.getTask() == task){
+        if (head.getTask().equals(task)){
             head = head.getNext();
             maxIndex--;
             return true;
         }
         Node tempNode = head;
-        while ((tempNode.getNext().getTask() != task) && (tempNode.getNext() != null))
+        while ((!tempNode.getNext().getTask().equals(task)) && (tempNode.getNext() != null))
             tempNode = tempNode.getNext();
         if (tempNode.getNext() != null){
             if(tempNode.getNext() == tail){
@@ -81,21 +117,4 @@ public class LinkedTaskList extends AbstractTaskList {
         }
         return temp.getTask();
     }
-
-    /*public LinkedTaskList incoming(int from, int to){
-        if (from < 0)
-            throw new IllegalArgumentException("from < 0");
-        if (to < from)
-            throw new IllegalArgumentException("to < from");
-        LinkedTaskList result = new LinkedTaskList();
-        Node temp = head;
-        while (temp.getNext() != null){
-            Task tempTask = temp.getTask();
-            if ((tempTask.nextTimeAfter(from) <= to) && (tempTask.nextTimeAfter(from) != -1)){
-                result.add(tempTask);
-            }
-            temp = temp.getNext();
-        }
-        return result;
-    }*/
 }
