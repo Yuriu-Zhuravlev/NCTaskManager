@@ -1,6 +1,8 @@
 package ua.edu.sumdu.j2se.zhuravlev.tasks;
 
-public class ArrayTaskList extends AbstractTaskList {
+import java.util.Iterator;
+
+public class ArrayTaskList extends AbstractTaskList{
     private int maxSize;
     private Task[] tasks;
     private final int toAdd = 10;
@@ -9,7 +11,7 @@ public class ArrayTaskList extends AbstractTaskList {
         maxSize = toAdd;
         tasks = new Task[maxSize];
         maxIndex = 0;
-        type = ListTypes.types.LINKED;
+        type = ListTypes.types.ARRAY;
     }
 
     public Task getTask(int index){
@@ -35,7 +37,7 @@ public class ArrayTaskList extends AbstractTaskList {
         if (task == null)
             throw new NullPointerException("task is null");
         int i = 0;
-        while ((tasks[i] != task) && (i != size())){
+        while ((!tasks[i].equals(task)) && (i != size())){
             i ++;
         }
         if (i == size()){
@@ -48,17 +50,35 @@ public class ArrayTaskList extends AbstractTaskList {
         }
     }
 
-    /*public ArrayTaskList incoming(int from, int to){
-        if (from < 0)
-            throw new IllegalArgumentException("from < 0");
-        if (to < from)
-            throw new IllegalArgumentException("to < from");
-        ArrayTaskList result = new ArrayTaskList();
-        for (int i = 0; i < maxIndex; i++) {
-            if ((tasks[i].nextTimeAfter(from) <= to) && (tasks[i].nextTimeAfter(from) != -1)){
-                result.add(tasks[i]);
+
+    @Override
+    public Iterator<Task> iterator() {
+        return new Iterator<Task>() {
+            private int index = 0;
+            private int curIndex = -1;
+            @Override
+            public boolean hasNext() {
+                return index < size();
             }
-        }
-        return result;
-    }*/
+
+            @Override
+            public Task next() {
+                curIndex = index++;
+                return tasks[curIndex];
+            }
+
+            @Override
+            public void remove() {
+                if(curIndex == -1) {
+                    throw new IllegalStateException();
+                }
+                else {
+                    ArrayTaskList.this.remove(tasks[curIndex]);
+                    curIndex = -1;
+                    index --;
+                }
+            }
+        };
+    }
+
 }

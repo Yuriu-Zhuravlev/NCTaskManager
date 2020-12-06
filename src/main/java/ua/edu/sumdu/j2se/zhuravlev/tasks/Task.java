@@ -1,6 +1,8 @@
 package ua.edu.sumdu.j2se.zhuravlev.tasks;
 
-public class Task {
+import java.util.Objects;
+
+public class Task implements Cloneable {
     /**
      * 11.10.2020
      * Title of the task
@@ -237,4 +239,41 @@ public class Task {
             return -1;
         }
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Task task = (Task) o;
+        return time == task.time &&
+                start == task.start &&
+                end == task.end &&
+                interval == task.interval &&
+                active == task.active &&
+                title.equals(task.title);
+    }
+
+    @Override
+    public int hashCode() {
+        int result = 7;
+        result = 7 * result + time;
+        result = 7 * result + start;
+        result = 7 * result + end;
+        result = 7 * result + interval;
+        result = 7 * result + (title == null ? 0 : title.hashCode());
+        result = 7 * result + (active ? 1 : 0);
+        return result;
+    }
+
+    public Object clone () throws CloneNotSupportedException {
+        Task clone = (Task) super.clone();
+        clone.title = this.title;
+        clone.time = this.time;
+        clone.active = this.active;
+        clone.start = this.start;
+        clone.end = this.end;
+        clone.interval = this.interval;
+        return clone;
+    }
+
 }
