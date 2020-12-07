@@ -1,6 +1,9 @@
 package ua.edu.sumdu.j2se.zhuravlev.tasks;
 
 import java.util.Objects;
+import java.util.Spliterator;
+import java.util.stream.Stream;
+import java.util.stream.StreamSupport;
 
 public abstract class AbstractTaskList implements Iterable<Task>{
     protected ListTypes.types type;
@@ -12,17 +15,15 @@ public abstract class AbstractTaskList implements Iterable<Task>{
     public abstract void add(Task task);
     public abstract boolean remove(Task task);
     public abstract Task getTask(int index);
+
     public AbstractTaskList incoming(int from, int to){
         if (from < 0)
             throw new IllegalArgumentException("from < 0");
         if (to < from)
             throw new IllegalArgumentException("to < from");
         AbstractTaskList result = TaskListFactory.createTaskList(type);
-        for (int i = 0; i < size(); i++) {
-            if ((getTask(i).nextTimeAfter(from) <= to) && (getTask(i).nextTimeAfter(from) != -1)){
-                result.add(getTask(i));
-            }
-        }
+        Stream<Task> resStream = getStream().filter(task -> (task.nextTimeAfter(from) < to) && (task.nextTimeAfter(from) != -1));
+        resStream.forEach(result::add);
         return result;
     }
 
@@ -73,5 +74,13 @@ public abstract class AbstractTaskList implements Iterable<Task>{
             copy.add(task);
         }
         return copy;
+    }
+
+    public Stream<Task> getStream(){
+        Stream.Builder<Task> taskBuilder = Stream.builder();
+        for (Task task: this){
+            taskBuilder.add(task);
+        }
+        return taskBuilder.build();
     }
 }
