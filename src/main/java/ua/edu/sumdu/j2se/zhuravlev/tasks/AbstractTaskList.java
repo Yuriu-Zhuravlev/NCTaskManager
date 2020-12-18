@@ -1,9 +1,8 @@
 package ua.edu.sumdu.j2se.zhuravlev.tasks;
 
-import java.util.Objects;
-import java.util.Spliterator;
+import java.time.LocalDateTime;
 import java.util.stream.Stream;
-import java.util.stream.StreamSupport;
+
 
 public abstract class AbstractTaskList implements Iterable<Task>{
     protected ListTypes.types type;
@@ -16,13 +15,15 @@ public abstract class AbstractTaskList implements Iterable<Task>{
     public abstract boolean remove(Task task);
     public abstract Task getTask(int index);
 
-    public AbstractTaskList incoming(int from, int to){
-        if (from < 0)
-            throw new IllegalArgumentException("from < 0");
-        if (to < from)
+    public AbstractTaskList incoming(LocalDateTime from, LocalDateTime to){
+        if (from == null)
+            throw new IllegalArgumentException("from is null");
+        if (to == null)
+            throw new IllegalArgumentException("to is null");
+        if (to.isBefore(from))
             throw new IllegalArgumentException("to < from");
         AbstractTaskList result = TaskListFactory.createTaskList(type);
-        Stream<Task> resStream = getStream().filter(task -> (task.nextTimeAfter(from) < to) && (task.nextTimeAfter(from) != -1));
+        Stream<Task> resStream = getStream().filter(task -> (task.nextTimeAfter(from).isBefore(to) && (task.nextTimeAfter(from) != null)));
         resStream.forEach(result::add);
         return result;
     }
@@ -60,7 +61,7 @@ public abstract class AbstractTaskList implements Iterable<Task>{
 
     @Override
     public String toString() {
-        StringBuilder result = new StringBuilder(getClass().getSimpleName()+"{\n");
+        StringBuilder result = new StringBuilder(getClass().getSimpleName()+" of " + maxIndex +  " elements: {\n");
         for (Task task: this){
             result.append("    ").append(task).append("\n");
         }
