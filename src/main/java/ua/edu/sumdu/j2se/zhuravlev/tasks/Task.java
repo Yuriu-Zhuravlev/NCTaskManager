@@ -1,5 +1,6 @@
 package ua.edu.sumdu.j2se.zhuravlev.tasks;
 
+import java.time.LocalDateTime;
 import java.util.Objects;
 
 public class Task implements Cloneable {
@@ -12,17 +13,17 @@ public class Task implements Cloneable {
      * 11.10.2020
      * Time of not periodic tasks
      */
-    private int time;
+    private LocalDateTime time;
     /**
      * 11.10.2020
      * Start time of periodic tasks
      */
-    private int start;
+    private LocalDateTime start;
     /**
      * 11.10.2020
      * End time of periodic tasks
      */
-    private int end;
+    private LocalDateTime end;
     /**
      * 11.10.2020
      * Repeat interval of periodic tasks
@@ -41,7 +42,7 @@ public class Task implements Cloneable {
      * @param title string task title
      * @param time  int time of not periodic tasks
      */
-    public Task(String title, int time) {
+    public Task(String title, LocalDateTime time) {
         setTitle(title);
         setTime(time);
         setActive(false);
@@ -56,7 +57,7 @@ public class Task implements Cloneable {
      * @param end      int end time of periodic tasks
      * @param interval int repeat interval of periodic tasks
      */
-    public Task(String title, int start, int end, int interval) {
+    public Task(String title, LocalDateTime start, LocalDateTime end, int interval) {
         setTitle(title);
         setTime(start, end, interval);
         setActive(false);
@@ -125,13 +126,13 @@ public class Task implements Cloneable {
      *
      * @param time int time of not periodic tasks
      */
-    public void setTime(int time) {
-        if (time < 0) {
-            throw new IllegalArgumentException("time < 0");
+    public void setTime(LocalDateTime time) {
+        if (time == null) {
+            throw new IllegalArgumentException("time is null");
         } else {
-            this.time = time;
-            this.start = time;
-            this.end = time;
+            this.time = time.plusHours(0);
+            this.start = time.plusHours(0);
+            this.end = time.plusHours(0);
             this.interval = 0;
         }
     }
@@ -144,20 +145,20 @@ public class Task implements Cloneable {
      * @param end      int end time of periodic tasks
      * @param interval int repeat interval of periodic tasks
      */
-    public void setTime(int start, int end, int interval) {
-        if (start < 0) {
+    public void setTime(LocalDateTime start, LocalDateTime end, int interval) {
+        if (start == null) {
             throw new IllegalArgumentException("start < 0");
-        } else if (end < start) {
+        } else if (!end.isAfter(start)) {
             throw new IllegalArgumentException("end < start");
         } else if (interval <= 0) {
             throw new IllegalArgumentException("interval < 0");
-        } else if ((start + interval) > end) {
+        } else if (start.plusSeconds(interval).isAfter(end)) {
             throw new IllegalArgumentException("too big repeat interval");
         } else {
-            this.start = start;
-            this.end = end;
+            this.start = start.plusHours(0);
+            this.end = end.plusHours(0);
             this.interval = interval;
-            this.time = start;
+            this.time = start.plusHours(0);
         }
     }
 
@@ -167,7 +168,7 @@ public class Task implements Cloneable {
      *
      * @return time - int time of not periodic tasks
      */
-    public int getTime() {
+    public LocalDateTime getTime() {
         return time;
     }
 
@@ -177,7 +178,7 @@ public class Task implements Cloneable {
      *
      * @return start - int start time of periodic tasks
      */
-    public int getStartTime() {
+    public LocalDateTime getStartTime() {
         return start;
     }
 
@@ -187,7 +188,7 @@ public class Task implements Cloneable {
      *
      * @return end - int end time of periodic tasks
      */
-    public int getEndTime() {
+    public LocalDateTime getEndTime() {
         return end;
     }
 
@@ -216,27 +217,34 @@ public class Task implements Cloneable {
      * @param current time to get time of next iteration after it
      * @return time of the next iteration. if there no one return -1
      */
-    public int nextTimeAfter(int current) {
-        if (current < 0){
-            throw new IllegalArgumentException("current < 0");
+    public LocalDateTime nextTimeAfter(LocalDateTime current) {
+        if (current == null){
+            throw new IllegalArgumentException("current is null");
         }
-        if ((current < getEndTime()) && isActive()
-                && ((current + getRepeatInterval()) < getEndTime())) {
-            if (current < getStartTime()) {
+        if (current.isBefore(getEndTime()) && isActive()) {
+            if (current.isBefore(getStartTime())) {
                 return getStartTime();
             } else {
-                int i = getStartTime();
-                do {
-                    i += getRepeatInterval();
-                } while (i < (current));
-                if (i == (current)) {
-                    return current + getRepeatInterval();
-                } else {
-                    return i;
+                if (isRepeated()) {
+                    LocalDateTime i = getStartTime();
+                    do {
+                        i = i.plusSeconds(getRepeatInterval());
+                    } while (i.isBefore(current));
+                    if (i.equals(current)) {
+                        return current.plusSeconds(getRepeatInterval());
+                    } else {
+                        if (i.isAfter(getEndTime()))
+                            return null;
+                        else
+                            return i;
+                    }
+                } else
+                {
+                    return null;
                 }
             }
         } else {
-            return -1;
+            return null;
         }
     }
 
@@ -245,9 +253,9 @@ public class Task implements Cloneable {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Task task = (Task) o;
-        return time == task.time &&
-                start == task.start &&
-                end == task.end &&
+        return time.equals(task.time) &&
+                start.equals(task.start) &&
+                end.equals(task.end) &&
                 interval == task.interval &&
                 active == task.active &&
                 title.equals(task.title);
@@ -256,9 +264,9 @@ public class Task implements Cloneable {
     @Override
     public int hashCode() {
         int result = 7;
-        result = 7 * result + time;
-        result = 7 * result + start;
-        result = 7 * result + end;
+        result = 7 * result + time.hashCode();
+        result = 7 * result + start.hashCode();
+        result = 7 * result + end.hashCode();
         result = 7 * result + interval;
         result = 7 * result + (title == null ? 0 : title.hashCode());
         result = 7 * result + (active ? 1 : 0);
@@ -268,10 +276,10 @@ public class Task implements Cloneable {
     public Object clone () throws CloneNotSupportedException {
         Task clone = (Task) super.clone();
         clone.title = this.title;
-        clone.time = this.time;
+        clone.time = this.time.plusHours(0);
         clone.active = this.active;
-        clone.start = this.start;
-        clone.end = this.end;
+        clone.start = this.start.plusHours(0);
+        clone.end = this.end.plusHours(0);
         clone.interval = this.interval;
         return clone;
     }
