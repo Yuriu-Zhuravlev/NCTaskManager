@@ -1,9 +1,9 @@
 package ua.edu.sumdu.j2se.zhuravlev.tasks;
 
 import java.time.LocalDateTime;
-import java.util.Objects;
+import java.io.Serializable;
 
-public class Task implements Cloneable {
+public class Task implements Cloneable, Serializable {
     /**
      * 11.10.2020
      * Title of the task
