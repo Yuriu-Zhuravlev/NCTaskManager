@@ -83,24 +83,14 @@ public class TaskIO {
             tasksTemp[i]=tasks.getTask(i);
         }
         Gson gson = new Gson();
-        try {
-            gson.toJson(tasksTemp, out);
-            out.flush();
-        } catch (IOException e) {
-            e.printStackTrace();
-        } finally {
-            out.close();
-        }
+        gson.toJson(tasksTemp, out);
+        out.flush();
     }
 
-    public static void read(AbstractTaskList tasks, Reader in) throws IOException {
+    public static void read(AbstractTaskList tasks, Reader in) {
         Gson gson = new Gson();
         Task[] tasksTemp;
-        try {
-            tasksTemp = gson.fromJson(in, Task[].class);
-        } finally {
-            in.close();
-        }
+        tasksTemp = gson.fromJson(in, Task[].class);
         for (Task task: tasksTemp) {
             tasks.add(task);
         }
