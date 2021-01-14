@@ -1,9 +1,8 @@
-package ua.edu.sumdu.j2se.zhuravlev.tasks;
+package ua.edu.sumdu.j2se.zhuravlev.tasks.model;
 
 import com.google.gson.Gson;
 
 import java.io.*;
-import java.nio.CharBuffer;
 import java.time.Instant;
 import java.time.LocalDateTime;
 import java.time.ZoneId;

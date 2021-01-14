@@ -1,11 +1,8 @@
-package ua.edu.sumdu.j2se.zhuravlev.tasks;
+package ua.edu.sumdu.j2se.zhuravlev.tasks.model;
 
 import java.io.Serializable;
 import java.time.LocalDateTime;
-import java.util.Objects;
-import java.util.Spliterator;
 import java.util.stream.Stream;
-import java.util.stream.StreamSupport;
 
 public abstract class AbstractTaskList implements Iterable<Task>, Serializable {
     protected ListTypes.types type;
@@ -61,7 +58,7 @@ public abstract class AbstractTaskList implements Iterable<Task>, Serializable {
 
     @Override
     public String toString() {
-        StringBuilder result = new StringBuilder(getClass().getSimpleName()+"{\n");
+        StringBuilder result = new StringBuilder("Your list of " + size() + " tasks {\n");
         for (Task task: this){
             result.append("    ").append(task).append("\n");
         }

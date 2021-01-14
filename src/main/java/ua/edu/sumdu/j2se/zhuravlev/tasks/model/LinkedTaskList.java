@@ -1,4 +1,4 @@
-package ua.edu.sumdu.j2se.zhuravlev.tasks;
+package ua.edu.sumdu.j2se.zhuravlev.tasks.model;
 
 import java.util.Iterator;
 

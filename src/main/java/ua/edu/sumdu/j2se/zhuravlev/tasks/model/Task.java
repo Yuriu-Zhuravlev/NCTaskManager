@@ -1,7 +1,8 @@
-package ua.edu.sumdu.j2se.zhuravlev.tasks;
+package ua.edu.sumdu.j2se.zhuravlev.tasks.model;
 
 import java.time.LocalDateTime;
 import java.io.Serializable;
+import java.time.format.DateTimeFormatter;
 
 public class Task implements Cloneable, Serializable {
     /**
@@ -110,14 +111,21 @@ public class Task implements Cloneable, Serializable {
 
     @Override
     public String toString() {
-        return "Task{" +
-                "title='" + title + '\'' +
-                ", time=" + time +
-                ", start=" + start +
-                ", end=" + end +
-                ", interval=" + interval +
-                ", active=" + active +
-                '}';
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+        if (isRepeated())
+            return "Task{" +
+                    "title='" + title + '\'' +
+                    ", start=" + start.format(formatter) +
+                    ", end=" + end.format(formatter) +
+                    ", interval=" + interval +
+                    ", active=" + active +
+                    '}';
+        else
+            return "Task{" +
+                    "title='" + title + '\'' +
+                    ", time=" + time.format(formatter) +
+                    ", active=" + active +
+                    '}';
     }
 
     /**
