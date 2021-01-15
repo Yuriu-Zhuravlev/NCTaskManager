@@ -1,8 +1,9 @@
 package ua.edu.sumdu.j2se.zhuravlev.tasks.model;
 
+import java.io.Serializable;
 import java.util.Iterator;
 
-public class LinkedTaskList extends AbstractTaskList {
+public class LinkedTaskList extends AbstractTaskList{
     @Override
     public Iterator<Task> iterator() {
         return new Iterator<Task>() {
@@ -33,7 +34,7 @@ public class LinkedTaskList extends AbstractTaskList {
         };
     }
 
-    private class Node{
+    private class Node implements Serializable{
         private Task task;
         private Node next;
 

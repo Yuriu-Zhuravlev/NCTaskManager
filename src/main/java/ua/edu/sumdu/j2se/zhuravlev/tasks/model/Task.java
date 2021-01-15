@@ -155,11 +155,13 @@ public class Task implements Cloneable, Serializable {
      */
     public void setTime(LocalDateTime start, LocalDateTime end, int interval) {
         if (start == null) {
-            throw new IllegalArgumentException("start < 0");
+            throw new IllegalArgumentException("start is null");
+        } else if (end == null){
+            throw new IllegalArgumentException("end is null");
         } else if (!end.isAfter(start)) {
             throw new IllegalArgumentException("end < start");
         } else if (interval <= 0) {
-            throw new IllegalArgumentException("interval < 0");
+            throw new IllegalArgumentException("interval <= 0");
         } else if (start.plusSeconds(interval).isAfter(end)) {
             throw new IllegalArgumentException("too big repeat interval");
         } else {

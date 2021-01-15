@@ -20,6 +20,8 @@ public class Tasks {
 
     public static SortedMap<LocalDateTime, Set<Task>> calendar(Iterable<Task> tasks, LocalDateTime start,
                                                       LocalDateTime end){
+        if (end.isBefore(start))
+            throw new IllegalArgumentException("to < from");
         SortedMap<LocalDateTime, Set<Task>> result = new TreeMap<>();
         tasks = Tasks.incoming(tasks,start,end);
         for (Task task:tasks) {

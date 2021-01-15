@@ -13,14 +13,18 @@ public class ViewCalendar implements View<SortedMap<LocalDateTime, Set<Task>>> {
 
     @Override
     public void show() {
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
-        System.out.println("Your calendar:");
-        for (Map.Entry<LocalDateTime,Set<Task>> entry: calendar.entrySet()) {
-            System.out.println("    "+entry.getKey().format(formatter)+" {");
-            for (Task task: entry.getValue()){
-                System.out.println("        "+task.getTitle());
+        if (calendar.isEmpty()){
+            System.out.println("Calendar is empty");
+        } else {
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+            System.out.println("Your calendar:");
+            for (Map.Entry<LocalDateTime, Set<Task>> entry : calendar.entrySet()) {
+                System.out.println("    " + entry.getKey().format(formatter) + " {");
+                for (Task task : entry.getValue()) {
+                    System.out.println("        " + task.getTitle());
+                }
+                System.out.println("    }");
             }
-            System.out.println("    }");
         }
     }
 

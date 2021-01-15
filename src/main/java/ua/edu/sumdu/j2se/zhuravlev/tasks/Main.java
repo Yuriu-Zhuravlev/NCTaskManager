@@ -1,5 +1,9 @@
 package ua.edu.sumdu.j2se.zhuravlev.tasks;
 
+import ua.edu.sumdu.j2se.zhuravlev.tasks.controller.*;
+import ua.edu.sumdu.j2se.zhuravlev.tasks.model.*;
+import ua.edu.sumdu.j2se.zhuravlev.tasks.view.*;
+
 import java.io.*;
 import java.time.LocalDateTime;
 import java.util.*;
@@ -35,14 +39,54 @@ public class Main {
 	public static final LocalDateTime TOMORROW = TODAY.plusDays(1);
 	public static final LocalDateTime ALMOST_TOMORROW = TOMORROW.minusSeconds(1);
 
+	public static void shCommandList(){
+		System.out.println("Commands:");
+		System.out.println("show - show task list;");
+		System.out.println("add - add new task to list;");
+		System.out.println("calendar - show calendar");
+		System.out.println("help - get command list;");
+		System.out.println("quit - end working");
+	}
+
 	public static void main(String[] args) throws CloneNotSupportedException, IOException {
-		LinkedTaskList list = new LinkedTaskList();
+		/*AbstractTaskList list = new LinkedTaskList();
 		list.add(new Task("A",NOW));
 		list.add(new Task("B",NOW,FROM_NOW_1000,10));
-		AbstractTaskList res = new ArrayTaskList();
-		File file = new File("tasks1.json");
-		TaskIO.writeText(list,file);
-		TaskIO.readText(res,file);
-		System.out.println(res);
+		for(Task task: list)
+			task.setActive(true);*/
+		AbstractTaskList list = new ArrayTaskList();
+		View viewList = new ViewList();
+		View viewTask = new ViewTask();
+		View viewCalendar = new ViewCalendar();
+		AbstractController openController  = new OpenListController(list, viewList);
+		openController.execute();
+		AbstractController showListController = new ShowListController(list,viewList);
+		AbstractController addTaskController = new AddTaskController(list, viewTask);
+		AbstractController calendarController = new ShowCalendarController(list,viewCalendar);
+		shCommandList();
+		System.out.println("type a command:");
+		Scanner scanner = new Scanner(System.in);
+		String command = scanner.nextLine();
+		while (!command.equals("quit")){
+			switch (command){
+				case "show":
+					showListController.execute();
+					break;
+				case "add":
+					addTaskController.execute();
+					break;
+				case "calendar":
+					calendarController.execute();
+					break;
+				case "help":
+					shCommandList();
+					break;
+				default:
+					System.out.println("unknown command, type help to see possible");
+					break;
+			}
+			System.out.println("type a command:");
+			command = scanner.nextLine();
+		}
 	}
 }
