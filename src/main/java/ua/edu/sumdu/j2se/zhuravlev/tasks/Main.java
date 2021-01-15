@@ -48,12 +48,7 @@ public class Main {
 		System.out.println("quit - end working");
 	}
 
-	public static void main(String[] args) throws CloneNotSupportedException, IOException {
-		/*AbstractTaskList list = new LinkedTaskList();
-		list.add(new Task("A",NOW));
-		list.add(new Task("B",NOW,FROM_NOW_1000,10));
-		for(Task task: list)
-			task.setActive(true);*/
+	public static void main(String[] args){
 		AbstractTaskList list = new ArrayTaskList();
 		View viewList = new ViewList();
 		View viewTask = new ViewTask();
