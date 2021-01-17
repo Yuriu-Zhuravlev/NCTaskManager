@@ -1,5 +1,6 @@
 package ua.edu.sumdu.j2se.zhuravlev.tasks.controller;
 
+import org.apache.log4j.Logger;
 import ua.edu.sumdu.j2se.zhuravlev.tasks.model.AbstractTaskList;
 import ua.edu.sumdu.j2se.zhuravlev.tasks.model.Task;
 import ua.edu.sumdu.j2se.zhuravlev.tasks.view.View;
@@ -11,6 +12,7 @@ import java.util.Scanner;
 
 public class DeleteController extends AbstractController {
     private View viewTask;
+    private static final Logger log = Logger.getLogger(DeleteController.class);
 
     public DeleteController(AbstractTaskList list, View viewList, View viewTask) {
         super(list, viewList);
@@ -32,6 +34,7 @@ public class DeleteController extends AbstractController {
         try{
             toDelete = list.getTask(id);
         } catch (IndexOutOfBoundsException e){
+            log.error("Caught exception in DeleteTaskController ",e);
             System.out.println("Error " + e.getMessage());
             System.out.println("Finished without saving");
             return;
@@ -49,7 +52,7 @@ public class DeleteController extends AbstractController {
             try(ObjectOutputStream outputStream = new ObjectOutputStream(new FileOutputStream("save.dat"))) {
                 outputStream.writeObject(list);
             } catch (IOException e) {
-                e.printStackTrace();
+                log.error("Caught exception in DeleteTaskController ",e);
             }
         }
     }

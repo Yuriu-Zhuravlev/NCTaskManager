@@ -5,11 +5,13 @@ import ua.edu.sumdu.j2se.zhuravlev.tasks.model.ArrayTaskList;
 import ua.edu.sumdu.j2se.zhuravlev.tasks.controller.*;
 import ua.edu.sumdu.j2se.zhuravlev.tasks.view.*;
 
-
+import org.apache.log4j.Logger;
 
 import java.util.*;
 
 public class Main {
+	private static final Logger log = Logger.getLogger(Main.class);
+
 	public static void shCommandList(){
 		System.out.println("Commands:");
 		System.out.println("show - show task list;");
@@ -22,6 +24,7 @@ public class Main {
 	}
 
 	public static void main(String[] args){
+		log.info("Program started");
 		AbstractTaskList list = new ArrayTaskList();
 		View viewList = new ViewList();
 		View viewTask = new ViewTask();
@@ -64,5 +67,6 @@ public class Main {
 			System.out.println("type a command:");
 			command = scanner.nextLine();
 		}
+		log.info("Program finished");
 	}
 }

@@ -1,5 +1,6 @@
 package ua.edu.sumdu.j2se.zhuravlev.tasks.controller;
 
+import org.apache.log4j.Logger;
 import ua.edu.sumdu.j2se.zhuravlev.tasks.model.AbstractTaskList;
 import ua.edu.sumdu.j2se.zhuravlev.tasks.model.Task;
 import ua.edu.sumdu.j2se.zhuravlev.tasks.view.View;
@@ -13,12 +14,13 @@ import java.time.format.DateTimeParseException;
 import java.util.Scanner;
 
 public class AddTaskController extends AbstractController {
+    private static final Logger log = Logger.getLogger(AddTaskController.class);
     public AddTaskController(AbstractTaskList list, View view) {
         super(list, view);
     }
 
     @Override
-    public void execute() {
+    public void execute(){
         Task task;
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
         Scanner scanner = new Scanner(System.in);
@@ -53,6 +55,7 @@ public class AddTaskController extends AbstractController {
             try {
                 task = new Task(title, time);
             } catch (IllegalArgumentException e){
+                log.error("Caught exception in AddTaskController ",e);
                 System.out.println("Error: " + e.getMessage());
                 System.out.println("Process finished without adding task");
                 return;
@@ -104,6 +107,7 @@ public class AddTaskController extends AbstractController {
             try {
                 task = new Task(title, startTime, endTime, interval);
             } catch (IllegalArgumentException e){
+                log.error("Caught exception in AddTaskController ",e);
                 System.out.println("Error: " + e.getMessage());
                 System.out.println("Process finished without adding task");
                 return;
@@ -133,7 +137,7 @@ public class AddTaskController extends AbstractController {
             try(ObjectOutputStream outputStream = new ObjectOutputStream(new FileOutputStream("save.dat"))) {
                 outputStream.writeObject(list);
             } catch (IOException e) {
-                e.printStackTrace();
+                log.error("Caught exception in AddTaskController ",e);
             }
         }
     }

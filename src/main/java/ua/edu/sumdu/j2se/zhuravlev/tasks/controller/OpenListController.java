@@ -1,13 +1,15 @@
 package ua.edu.sumdu.j2se.zhuravlev.tasks.controller;
 
+import org.apache.log4j.Logger;
 import ua.edu.sumdu.j2se.zhuravlev.tasks.model.AbstractTaskList;
-import ua.edu.sumdu.j2se.zhuravlev.tasks.model.ArrayTaskList;
 import ua.edu.sumdu.j2se.zhuravlev.tasks.model.Task;
 import ua.edu.sumdu.j2se.zhuravlev.tasks.view.View;
 
 import java.io.*;
 
 public class OpenListController extends AbstractController {
+    private static final Logger log = Logger.getLogger(OpenListController.class);
+
     public OpenListController(AbstractTaskList list, View view) {
         super(list, view);
     }
@@ -27,10 +29,10 @@ public class OpenListController extends AbstractController {
             try(ObjectOutputStream outputStream = new ObjectOutputStream(new FileOutputStream("save.dat"))) {
                 outputStream.writeObject(list);
             } catch (IOException ex) {
-                ex.printStackTrace();
+                log.error("Caught exception in OpenListController ",ex);
             }
         } catch (IOException | ClassNotFoundException e) {
-            e.printStackTrace();
+            log.error("Caught exception in OpenListController ",e);
         }
     }
 }

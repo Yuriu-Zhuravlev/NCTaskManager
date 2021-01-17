@@ -1,5 +1,6 @@
 package ua.edu.sumdu.j2se.zhuravlev.tasks.controller;
 
+import org.apache.log4j.Logger;
 import ua.edu.sumdu.j2se.zhuravlev.tasks.model.AbstractTaskList;
 import ua.edu.sumdu.j2se.zhuravlev.tasks.model.Task;
 import ua.edu.sumdu.j2se.zhuravlev.tasks.view.View;
@@ -14,6 +15,7 @@ import java.util.Scanner;
 
 public class EditController extends AbstractController {
     private View viewTask;
+    private static final Logger log = Logger.getLogger(EditController.class);
 
     public EditController(AbstractTaskList list, View viewList, View viewTask) {
         super(list, viewList);
@@ -36,6 +38,7 @@ public class EditController extends AbstractController {
         try{
             edit = (Task) list.getTask(id).clone();
         } catch (IndexOutOfBoundsException | CloneNotSupportedException e){
+            log.error("Caught exception in EditController ",e);
             System.out.println("Error " + e.getMessage());
             System.out.println("Finished without saving");
             return;
@@ -57,6 +60,7 @@ public class EditController extends AbstractController {
             } catch (IllegalArgumentException e){
                 System.out.println("Error " + e.getMessage());
                 System.out.println("Finished without saving");
+                log.error("Caught exception in EditController ",e);
                 return;
             }
         }
@@ -100,8 +104,9 @@ public class EditController extends AbstractController {
                 try {
                     edit.setTime(time);
                 } catch (IllegalArgumentException e){
+                    log.error("Caught exception in EditController ",e);
                     System.out.println("Error: " + e.getMessage());
-                    System.out.println("Process finished without adding task");
+                    System.out.println("Finished without saving");
                     return;
                 }
             } else {
@@ -151,8 +156,9 @@ public class EditController extends AbstractController {
                 try {
                     edit.setTime(startTime,endTime,interval);
                 } catch (IllegalArgumentException e){
+                    log.error("Caught exception in EditController ",e);
                     System.out.println("Error: " + e.getMessage());
-                    System.out.println("Process finished without adding task");
+                    System.out.println("Finished without saving");
                     return;
                 }
             }
@@ -189,7 +195,7 @@ public class EditController extends AbstractController {
             try(ObjectOutputStream outputStream = new ObjectOutputStream(new FileOutputStream("save.dat"))) {
                 outputStream.writeObject(list);
             } catch (IOException e) {
-                e.printStackTrace();
+                log.error("Caught exception in EditController ",e);
             }
         }
     }
