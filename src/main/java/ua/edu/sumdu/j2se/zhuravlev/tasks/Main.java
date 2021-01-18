@@ -3,6 +3,7 @@ package ua.edu.sumdu.j2se.zhuravlev.tasks;
 import ua.edu.sumdu.j2se.zhuravlev.tasks.model.AbstractTaskList;
 import ua.edu.sumdu.j2se.zhuravlev.tasks.model.ArrayTaskList;
 import ua.edu.sumdu.j2se.zhuravlev.tasks.controller.*;
+import ua.edu.sumdu.j2se.zhuravlev.tasks.notification.NotificationManager;
 import ua.edu.sumdu.j2se.zhuravlev.tasks.view.*;
 
 import org.apache.log4j.Logger;
@@ -37,6 +38,9 @@ public class Main {
 		AbstractController deleteController = new DeleteController(list, viewList, viewTask);
 		openController.execute();
 		shCommandList();
+		Thread notification = new Thread(new NotificationManager(list));
+		notification.setDaemon(true);
+		notification.start();
 		System.out.println("type a command:");
 		Scanner scanner = new Scanner(System.in);
 		String command = scanner.nextLine();

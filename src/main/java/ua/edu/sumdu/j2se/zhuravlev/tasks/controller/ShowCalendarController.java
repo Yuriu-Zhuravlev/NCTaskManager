@@ -1,6 +1,8 @@
 package ua.edu.sumdu.j2se.zhuravlev.tasks.controller;
 
+import org.apache.log4j.Logger;
 import ua.edu.sumdu.j2se.zhuravlev.tasks.model.AbstractTaskList;
+import ua.edu.sumdu.j2se.zhuravlev.tasks.model.Task;
 import ua.edu.sumdu.j2se.zhuravlev.tasks.model.Tasks;
 import ua.edu.sumdu.j2se.zhuravlev.tasks.view.View;
 
@@ -8,8 +10,12 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
 import java.util.Scanner;
+import java.util.Set;
+import java.util.SortedMap;
 
 public class ShowCalendarController extends AbstractController {
+    private static final Logger log = Logger.getLogger(ShowCalendarController.class);
+
     public ShowCalendarController(AbstractTaskList list, View view) {
         super(list, view);
     }
@@ -57,10 +63,12 @@ public class ShowCalendarController extends AbstractController {
             }
         }
         try {
-            view.set(Tasks.calendar(list,startTime,endTime));
+            SortedMap<LocalDateTime, Set<Task>> calendar = Tasks.calendar(list,startTime,endTime);
+            view.set(calendar);
             view.show();
         } catch (IllegalArgumentException ex){
             System.out.println("Error: " + ex.getMessage());
+            log.error("Caught exception in DeleteTaskController ",ex);
         }
     }
 }
