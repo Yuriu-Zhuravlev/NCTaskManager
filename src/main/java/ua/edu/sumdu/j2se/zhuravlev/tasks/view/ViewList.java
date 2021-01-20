@@ -3,6 +3,8 @@ package ua.edu.sumdu.j2se.zhuravlev.tasks.view;
 import ua.edu.sumdu.j2se.zhuravlev.tasks.model.AbstractTaskList;
 import ua.edu.sumdu.j2se.zhuravlev.tasks.model.Task;
 
+import java.util.Scanner;
+
 public class ViewList implements View<AbstractTaskList> {
     AbstractTaskList list;
 
@@ -22,6 +24,17 @@ public class ViewList implements View<AbstractTaskList> {
     @Override
     public void set(AbstractTaskList object) {
         list = object;
+    }
+
+    @Override
+    public Object input(InputTypes type) {
+        Scanner scanner = new Scanner(System.in);
+        System.out.println("Input task id:");
+        while(!scanner.hasNextInt())
+            System.out.println("try again");
+        int id = scanner.nextInt();
+        scanner.nextLine();
+        return id;
     }
 
 }
