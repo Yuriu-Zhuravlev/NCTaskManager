@@ -20,8 +20,7 @@ public class EditController extends AbstractController {
 
     @Override
     public void execute() {
-        view.set(list);
-        view.show();
+        show(view,list);
         int id = (int) view.input(InputTypes.ID);
         Task edit;
         try{
@@ -31,8 +30,7 @@ public class EditController extends AbstractController {
             view.showError(e);
             return;
         }
-        viewTask.set(edit);
-        viewTask.show();
+        show(viewTask,edit);
         boolean answer = viewTask.inputAnswer(Questions.CHANGE_TITLE);
         if (answer){
             String newTitle = (String) viewTask.input(InputTypes.TITLE);
@@ -71,8 +69,7 @@ public class EditController extends AbstractController {
         }
         answer = viewTask.inputAnswer(Questions.ACTIVE);
         edit.setActive(answer);
-        viewTask.set(edit);
-        viewTask.show();
+        show(viewTask,edit);
         answer = view.inputAnswer(Questions.SAVE);
         if (answer){
             list.getTask(id).setTitle(edit.getTitle());

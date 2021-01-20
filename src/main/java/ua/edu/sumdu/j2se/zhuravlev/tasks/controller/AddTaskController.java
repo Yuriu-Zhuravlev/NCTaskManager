@@ -46,8 +46,7 @@ public class AddTaskController extends AbstractController {
         }
         answer = view.inputAnswer(Questions.ACTIVE);
         task.setActive(answer);
-        view.set(task);
-        view.show();
+        show(view,task);
         answer = view.inputAnswer(Questions.SAVE);
         if (answer){
             list.add(task);

@@ -24,8 +24,7 @@ public class ShowCalendarController extends AbstractController {
         LocalDateTime endTime = (LocalDateTime) view.input(InputTypes.END);
         try {
             SortedMap<LocalDateTime, Set<Task>> calendar = Tasks.calendar(list,startTime,endTime);
-            view.set(calendar);
-            view.show();
+            show(view,calendar);
         } catch (IllegalArgumentException ex){
             view.showError(ex);
             log.error("Caught exception in DeleteTaskController ",ex);

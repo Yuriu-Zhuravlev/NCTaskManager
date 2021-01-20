@@ -10,7 +10,6 @@ public class ShowListController extends AbstractController {
 
     @Override
     public void execute() {
-        view.set(list);
-        view.show();
+        show(view,list);
     }
 }

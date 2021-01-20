@@ -19,8 +19,7 @@ public class DeleteController extends AbstractController {
 
     @Override
     public void execute() {
-        view.set(list);
-        view.show();
+        show(view,list);
         int id = (int) view.input(InputTypes.ID);
         Task toDelete;
         try{
@@ -31,8 +30,7 @@ public class DeleteController extends AbstractController {
             view.showError(e);
             return;
         }
-        viewTask.set(toDelete);
-        viewTask.show();
+        show(viewTask,toDelete);
         boolean answer = view.inputAnswer(Questions.DELETE);
         if (answer){
             list.remove(toDelete);

@@ -27,4 +27,9 @@ public abstract class AbstractController {
             log.error("Caught exception in AddTaskController ",e);
         }
     }
+
+    public static void show (View view, Object o){
+        view.set(o);
+        view.show();
+    }
 }

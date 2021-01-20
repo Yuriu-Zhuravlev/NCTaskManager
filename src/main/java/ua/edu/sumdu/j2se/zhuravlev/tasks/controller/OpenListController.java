@@ -22,8 +22,7 @@ public class OpenListController extends AbstractController {
             for (Task task: listTemp) {
                 list.add(task);
             }
-            view.set(list);
-            view.show();
+            show(view,list);
         } catch (FileNotFoundException e) {
             view.message("Save file wasn't found, create new save file");
             save();
