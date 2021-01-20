@@ -21,16 +21,14 @@ public class NotificationManager implements Runnable {
     public void run() {
         System.out.println("Notification thread started");
         for(;;){
-            if (list.size() != 0) {
-                LocalDateTime now = LocalDateTime.now();
-                SortedMap<LocalDateTime, Set<Task>> calendar = Tasks.calendar(list,now.minusSeconds(1),now.plusSeconds(1));
-                if (calendar.containsKey(now)){
-                    Notification.notify(now, calendar.get(now));
-                    try {
-                        Thread.sleep(1);
-                    } catch (InterruptedException e) {
-                        log.error("Caught exception in NotificationManager",e);
-                    }
+            LocalDateTime now = LocalDateTime.now();
+            SortedMap<LocalDateTime, Set<Task>> calendar = Tasks.calendar(list,now.minusSeconds(1),now.plusSeconds(1));
+            if (calendar.containsKey(now)){
+                Notification.notify(now, calendar.get(now));
+                try {
+                    Thread.sleep(1);
+                } catch (InterruptedException e) {
+                    log.error("Caught exception in NotificationManager",e);
                 }
             }
         }

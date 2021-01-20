@@ -21,7 +21,7 @@ public class AddTaskController extends AbstractController {
         Task task;
         String title = (String) view.input(InputTypes.TITLE);
         boolean answer = view.inputAnswer(Questions.REPEATED);
-        if (answer){
+        if (!answer){
             LocalDateTime time = (LocalDateTime) view.input(InputTypes.TIME);
             try {
                 task = new Task(title, time);
@@ -45,9 +45,7 @@ public class AddTaskController extends AbstractController {
             }
         }
         answer = view.inputAnswer(Questions.ACTIVE);
-        if (answer){
-            task.setActive(true);
-        }
+        task.setActive(answer);
         view.set(task);
         view.show();
         answer = view.inputAnswer(Questions.SAVE);

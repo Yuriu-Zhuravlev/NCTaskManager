@@ -47,7 +47,7 @@ public class EditController extends AbstractController {
         answer = viewTask.inputAnswer(Questions.CHANGE_TIME);
         if (answer){
             answer = viewTask.inputAnswer(Questions.REPEATED);
-            if (answer){
+            if (!answer){
                 LocalDateTime time = (LocalDateTime) viewTask.input(InputTypes.TIME);
                 try {
                     edit.setTime(time);
