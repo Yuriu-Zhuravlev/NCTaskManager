@@ -19,13 +19,14 @@ public class AddTaskController extends AbstractController {
     public void execute(){
         Task task;
         String title = (String) view.input(InputTypes.TITLE);
-        String answer = view.inputAnswer("Do you want task to be repeated?");
-        if (answer.equals("n")){
+        boolean answer = view.inputAnswer("Do you want task to be repeated?");
+        if (answer){
             LocalDateTime time = (LocalDateTime) view.input(InputTypes.TIME);
             try {
                 task = new Task(title, time);
             } catch (IllegalArgumentException e){
-                log.error("Caught exception in AddTaskController ",e);
+                log.error("Caught IllegalArgumentException in AddTaskController caused by user's input " +
+                        e.getMessage(), e);
                 view.showError(e);
                 return;
             }
@@ -36,19 +37,20 @@ public class AddTaskController extends AbstractController {
             try {
                 task = new Task(title, startTime, endTime, interval);
             } catch (IllegalArgumentException e){
-                log.error("Caught exception in AddTaskController ",e);
+                log.error("Caught IllegalArgumentException in AddTaskController caused by user's input " +
+                        e.getMessage(), e);
                 view.showError(e);
                 return;
             }
         }
         answer = view.inputAnswer("Do you want to set task active?");
-        if (answer.equals("y")){
+        if (answer){
             task.setActive(true);
         }
         view.set(task);
         view.show();
         answer = view.inputAnswer("Do you want to save it?");
-        if (answer.equals("y")){
+        if (answer){
             list.add(task);
             save();
         }

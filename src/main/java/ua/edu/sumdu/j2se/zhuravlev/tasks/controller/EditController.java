@@ -32,8 +32,8 @@ public class EditController extends AbstractController {
         }
         viewTask.set(edit);
         viewTask.show();
-        String answer = viewTask.inputAnswer("Do you want to change title?");
-        if (answer.equals("y")){
+        boolean answer = viewTask.inputAnswer("Do you want to change title?");
+        if (answer){
             String newTitle = (String) viewTask.input(InputTypes.TITLE);
             try {
                 edit.setTitle(newTitle);
@@ -44,9 +44,9 @@ public class EditController extends AbstractController {
             }
         }
         answer = viewTask.inputAnswer("Do you want to change time?");
-        if (answer.equals("y")){
+        if (answer){
             answer = viewTask.inputAnswer("Do you want task to be repeated?");
-            if (answer.equals("n")){
+            if (answer){
                 LocalDateTime time = (LocalDateTime) viewTask.input(InputTypes.TIME);
                 try {
                     edit.setTime(time);
@@ -56,7 +56,7 @@ public class EditController extends AbstractController {
                     return;
                 }
             } else {
-                LocalDateTime startTime = (LocalDateTime) viewTask.input(InputTypes.START);;
+                LocalDateTime startTime = (LocalDateTime) viewTask.input(InputTypes.START);
                 LocalDateTime endTime = (LocalDateTime) viewTask.input(InputTypes.END);
                 int interval = (int) viewTask.input(InputTypes.INTERVAL);
                 try {
@@ -69,11 +69,11 @@ public class EditController extends AbstractController {
             }
         }
         answer = viewTask.inputAnswer("Do you want to set task active?");
-        edit.setActive(answer.equals("y"));
+        edit.setActive(answer);
         viewTask.set(edit);
         viewTask.show();
         answer = view.inputAnswer("Do you want to save it?");
-        if (answer.equals("y")){
+        if (answer){
             list.getTask(id).setTitle(edit.getTitle());
             if (edit.isRepeated()){
                 list.getTask(id).setTime(edit.getStartTime(), edit.getEndTime(), edit.getRepeatInterval());

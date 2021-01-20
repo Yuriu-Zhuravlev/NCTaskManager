@@ -25,14 +25,15 @@ public class DeleteController extends AbstractController {
         try{
             toDelete = list.getTask(id);
         } catch (IndexOutOfBoundsException e){
-            log.error("Caught exception in DeleteTaskController ",e);
+            log.error("Caught IllegalArgumentException in DeleteController caused by user's input " +
+                    e.getMessage(),e);
             view.showError(e);
             return;
         }
         viewTask.set(toDelete);
         viewTask.show();
-        String answer = view.inputAnswer("Are you sure you want to delete this task?");
-        if (answer.equals("y")){
+        boolean answer = view.inputAnswer("Are you sure you want to delete this task?");
+        if (answer){
             list.remove(toDelete);
             save();
         }

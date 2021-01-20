@@ -12,7 +12,7 @@ public interface View<T> {
         System.out.println("Process finished without saving");
     }
 
-    default String inputAnswer(String question){
+    default boolean inputAnswer(String question){
         Scanner scanner = new Scanner(System.in);
         System.out.println(question + " [y/n]");
         String answer = scanner.nextLine();
@@ -20,7 +20,7 @@ public interface View<T> {
             System.out.println("try again");
             answer = scanner.nextLine();
         }
-        return answer;
+        return answer.equals("y");
     }
 
     default void message(String message){
