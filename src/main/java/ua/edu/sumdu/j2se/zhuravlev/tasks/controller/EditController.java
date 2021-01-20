@@ -4,6 +4,7 @@ import org.apache.log4j.Logger;
 import ua.edu.sumdu.j2se.zhuravlev.tasks.model.AbstractTaskList;
 import ua.edu.sumdu.j2se.zhuravlev.tasks.model.Task;
 import ua.edu.sumdu.j2se.zhuravlev.tasks.view.InputTypes;
+import ua.edu.sumdu.j2se.zhuravlev.tasks.view.Questions;
 import ua.edu.sumdu.j2se.zhuravlev.tasks.view.View;
 
 import java.time.LocalDateTime;
@@ -32,7 +33,7 @@ public class EditController extends AbstractController {
         }
         viewTask.set(edit);
         viewTask.show();
-        boolean answer = viewTask.inputAnswer("Do you want to change title?");
+        boolean answer = viewTask.inputAnswer(Questions.CHANGE_TITLE);
         if (answer){
             String newTitle = (String) viewTask.input(InputTypes.TITLE);
             try {
@@ -43,9 +44,9 @@ public class EditController extends AbstractController {
                 return;
             }
         }
-        answer = viewTask.inputAnswer("Do you want to change time?");
+        answer = viewTask.inputAnswer(Questions.CHANGE_TIME);
         if (answer){
-            answer = viewTask.inputAnswer("Do you want task to be repeated?");
+            answer = viewTask.inputAnswer(Questions.REPEATED);
             if (answer){
                 LocalDateTime time = (LocalDateTime) viewTask.input(InputTypes.TIME);
                 try {
@@ -68,11 +69,11 @@ public class EditController extends AbstractController {
                 }
             }
         }
-        answer = viewTask.inputAnswer("Do you want to set task active?");
+        answer = viewTask.inputAnswer(Questions.ACTIVE);
         edit.setActive(answer);
         viewTask.set(edit);
         viewTask.show();
-        answer = view.inputAnswer("Do you want to save it?");
+        answer = view.inputAnswer(Questions.SAVE);
         if (answer){
             list.getTask(id).setTitle(edit.getTitle());
             if (edit.isRepeated()){

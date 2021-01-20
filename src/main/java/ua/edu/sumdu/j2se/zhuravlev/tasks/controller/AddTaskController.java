@@ -4,6 +4,7 @@ import org.apache.log4j.Logger;
 import ua.edu.sumdu.j2se.zhuravlev.tasks.model.AbstractTaskList;
 import ua.edu.sumdu.j2se.zhuravlev.tasks.model.Task;
 import ua.edu.sumdu.j2se.zhuravlev.tasks.view.InputTypes;
+import ua.edu.sumdu.j2se.zhuravlev.tasks.view.Questions;
 import ua.edu.sumdu.j2se.zhuravlev.tasks.view.View;
 
 import java.time.LocalDateTime;
@@ -19,7 +20,7 @@ public class AddTaskController extends AbstractController {
     public void execute(){
         Task task;
         String title = (String) view.input(InputTypes.TITLE);
-        boolean answer = view.inputAnswer("Do you want task to be repeated?");
+        boolean answer = view.inputAnswer(Questions.REPEATED);
         if (answer){
             LocalDateTime time = (LocalDateTime) view.input(InputTypes.TIME);
             try {
@@ -43,13 +44,13 @@ public class AddTaskController extends AbstractController {
                 return;
             }
         }
-        answer = view.inputAnswer("Do you want to set task active?");
+        answer = view.inputAnswer(Questions.ACTIVE);
         if (answer){
             task.setActive(true);
         }
         view.set(task);
         view.show();
-        answer = view.inputAnswer("Do you want to save it?");
+        answer = view.inputAnswer(Questions.SAVE);
         if (answer){
             list.add(task);
             save();

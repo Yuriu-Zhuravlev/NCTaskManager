@@ -12,9 +12,9 @@ public interface View<T> {
         System.out.println("Process finished without saving");
     }
 
-    default boolean inputAnswer(String question){
+    default boolean inputAnswer(Questions question){
         Scanner scanner = new Scanner(System.in);
-        System.out.println(question + " [y/n]");
+        System.out.println(question.getQuestion() + " [y/n]");
         String answer = scanner.nextLine();
         while (!answer.equals("y") && !answer.equals("n")){
             System.out.println("try again");

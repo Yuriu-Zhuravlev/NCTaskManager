@@ -4,6 +4,7 @@ import org.apache.log4j.Logger;
 import ua.edu.sumdu.j2se.zhuravlev.tasks.model.AbstractTaskList;
 import ua.edu.sumdu.j2se.zhuravlev.tasks.model.Task;
 import ua.edu.sumdu.j2se.zhuravlev.tasks.view.InputTypes;
+import ua.edu.sumdu.j2se.zhuravlev.tasks.view.Questions;
 import ua.edu.sumdu.j2se.zhuravlev.tasks.view.View;
 
 
@@ -32,7 +33,7 @@ public class DeleteController extends AbstractController {
         }
         viewTask.set(toDelete);
         viewTask.show();
-        boolean answer = view.inputAnswer("Are you sure you want to delete this task?");
+        boolean answer = view.inputAnswer(Questions.DELETE);
         if (answer){
             list.remove(toDelete);
             save();
