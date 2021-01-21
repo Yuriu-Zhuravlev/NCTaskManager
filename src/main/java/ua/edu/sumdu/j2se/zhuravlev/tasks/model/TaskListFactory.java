@@ -1,7 +1,7 @@
 package ua.edu.sumdu.j2se.zhuravlev.tasks.model;
 
 public class TaskListFactory {
-    public static AbstractTaskList createTaskList(ListTypes.types type){
+    public static AbstractTaskList createTaskList(ListTypes type){
         AbstractTaskList result;
         switch(type){
             case ARRAY:

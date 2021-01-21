@@ -5,7 +5,7 @@ import java.time.LocalDateTime;
 import java.util.stream.Stream;
 
 public abstract class AbstractTaskList implements Iterable<Task>, Serializable {
-    protected ListTypes.types type;
+    protected ListTypes type;
     protected int maxIndex;
 
     public int size(){

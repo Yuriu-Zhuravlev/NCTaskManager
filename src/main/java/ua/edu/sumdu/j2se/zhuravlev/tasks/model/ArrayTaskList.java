@@ -11,7 +11,7 @@ public class ArrayTaskList extends AbstractTaskList{
         maxSize = toAdd;
         tasks = new Task[maxSize];
         maxIndex = 0;
-        type = ListTypes.types.ARRAY;
+        type = ListTypes.ARRAY;
     }
 
     public Task getTask(int index){

@@ -64,7 +64,7 @@ public class LinkedTaskList extends AbstractTaskList{
     private Node tail;
 
     public LinkedTaskList() {
-        type = ListTypes.types.LINKED;
+        type = ListTypes.LINKED;
         maxIndex = 0;
         head = null;
         tail = null;
