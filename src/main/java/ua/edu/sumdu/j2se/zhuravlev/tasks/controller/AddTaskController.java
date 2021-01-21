@@ -26,8 +26,7 @@ public class AddTaskController extends AbstractController {
             try {
                 task = new Task(title, time);
             } catch (IllegalArgumentException e){
-                log.error("Caught IllegalArgumentException in AddTaskController caused by user's input " +
-                        e.getMessage(), e);
+                log.error(Errors.USER_INPUT.getError(), e);
                 view.showError(e);
                 return;
             }
@@ -38,8 +37,7 @@ public class AddTaskController extends AbstractController {
             try {
                 task = new Task(title, startTime, endTime, interval);
             } catch (IllegalArgumentException e){
-                log.error("Caught IllegalArgumentException in AddTaskController caused by user's input " +
-                        e.getMessage(), e);
+                log.error(Errors.USER_INPUT.getError(), e);
                 view.showError(e);
                 return;
             }

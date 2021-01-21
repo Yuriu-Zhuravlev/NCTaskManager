@@ -25,8 +25,12 @@ public class EditController extends AbstractController {
         Task edit;
         try{
             edit = (Task) list.getTask(id).clone();
-        } catch (IndexOutOfBoundsException | CloneNotSupportedException e){
-            log.error("Caught exception in EditController ",e);
+        } catch (IndexOutOfBoundsException e){
+            log.error(Errors.USER_INPUT.getError(),e);
+            view.showError(e);
+            return;
+        } catch (CloneNotSupportedException e){
+            log.error(Errors.CLONE.getError(),e);
             view.showError(e);
             return;
         }
@@ -38,7 +42,7 @@ public class EditController extends AbstractController {
                 edit.setTitle(newTitle);
             } catch (IllegalArgumentException e){
                 viewTask.showError(e);
-                log.error("Caught exception in EditController ",e);
+                log.error(Errors.USER_INPUT.getError(),e);
                 return;
             }
         }
@@ -50,7 +54,7 @@ public class EditController extends AbstractController {
                 try {
                     edit.setTime(time);
                 } catch (IllegalArgumentException e){
-                    log.error("Caught exception in EditController ",e);
+                    log.error(Errors.USER_INPUT.getError(),e);
                     viewTask.showError(e);
                     return;
                 }
@@ -61,7 +65,7 @@ public class EditController extends AbstractController {
                 try {
                     edit.setTime(startTime,endTime,interval);
                 } catch (IllegalArgumentException e){
-                    log.error("Caught exception in EditController ",e);
+                    log.error(Errors.USER_INPUT.getError(),e);
                     viewTask.showError(e);
                     return;
                 }

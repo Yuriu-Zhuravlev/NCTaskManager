@@ -11,6 +11,7 @@ import java.io.ObjectOutputStream;
 public abstract class AbstractController {
     protected AbstractTaskList list;
     protected View view;
+    protected final String filename = "save.dat";
     private static final Logger log = Logger.getLogger(AbstractController.class);
 
     public AbstractController(AbstractTaskList list, View view) {
@@ -21,10 +22,10 @@ public abstract class AbstractController {
     public abstract void execute();
 
     public void save(){
-        try(ObjectOutputStream outputStream = new ObjectOutputStream(new FileOutputStream("save.dat"))) {
+        try(ObjectOutputStream outputStream = new ObjectOutputStream(new FileOutputStream(filename))) {
             outputStream.writeObject(list);
         } catch (IOException e) {
-            log.error("Caught exception in AddTaskController ",e);
+            log.error(Errors.OPEN_FILE.getError(),e);
         }
     }
 

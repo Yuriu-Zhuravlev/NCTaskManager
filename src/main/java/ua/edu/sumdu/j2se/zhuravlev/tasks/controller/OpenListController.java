@@ -16,7 +16,7 @@ public class OpenListController extends AbstractController {
 
     @Override
     public void execute() {
-        try (ObjectInputStream inputStream = new ObjectInputStream(new FileInputStream("save.dat"))){
+        try (ObjectInputStream inputStream = new ObjectInputStream(new FileInputStream(filename))){
             AbstractTaskList listTemp = (AbstractTaskList) inputStream.readObject();
             view.message("Save file loaded");
             for (Task task: listTemp) {
@@ -26,8 +26,10 @@ public class OpenListController extends AbstractController {
         } catch (FileNotFoundException e) {
             view.message("Save file wasn't found, create new save file");
             save();
-        } catch (IOException | ClassNotFoundException e) {
-            log.error("Caught exception in OpenListController ",e);
+        } catch (IOException e) {
+            log.error(Errors.OPEN_FILE.getError(),e);
+        } catch (ClassNotFoundException e) {
+            log.error(Errors.DESERIALIZATION.getError(),e);
         }
     }
 }
