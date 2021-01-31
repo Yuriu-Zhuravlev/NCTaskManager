@@ -18,6 +18,7 @@ public class AddTaskController extends AbstractController {
 
     @Override
     public void execute(){
+        log.info("adding task started");
         Task task;
         String title = (String) view.input(InputTypes.TITLE);
         boolean answer = view.inputAnswer(Questions.REPEATED);
@@ -47,6 +48,7 @@ public class AddTaskController extends AbstractController {
         show(view,task);
         answer = view.inputAnswer(Questions.SAVE);
         if (answer){
+            log.info("task added " + task);
             list.add(task);
             save();
         }

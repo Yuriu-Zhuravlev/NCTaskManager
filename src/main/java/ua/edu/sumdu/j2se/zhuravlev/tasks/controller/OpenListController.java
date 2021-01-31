@@ -19,12 +19,14 @@ public class OpenListController extends AbstractController {
         try (ObjectInputStream inputStream = new ObjectInputStream(new FileInputStream(filename))){
             AbstractTaskList listTemp = (AbstractTaskList) inputStream.readObject();
             view.message("Save file loaded");
+            log.info("Save file loaded");
             for (Task task: listTemp) {
                 list.add(task);
             }
             show(view,list);
         } catch (FileNotFoundException e) {
             view.message("Save file wasn't found, create new save file");
+            log.info("Save file created");
             save();
         } catch (IOException e) {
             log.error(Errors.OPEN_FILE.getError(),e);

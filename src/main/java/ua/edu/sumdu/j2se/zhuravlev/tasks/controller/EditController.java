@@ -20,6 +20,7 @@ public class EditController extends AbstractController {
 
     @Override
     public void execute() {
+        log.info("edition started");
         show(view,list);
         int id = (int) view.input(InputTypes.ID);
         Task edit;
@@ -76,6 +77,7 @@ public class EditController extends AbstractController {
         show(viewTask,edit);
         answer = view.inputAnswer(Questions.SAVE);
         if (answer){
+            log.info("task "+ list.getTask(id) + " edited " + edit);
             list.getTask(id).setTitle(edit.getTitle());
             if (edit.isRepeated()){
                 list.getTask(id).setTime(edit.getStartTime(), edit.getEndTime(), edit.getRepeatInterval());
